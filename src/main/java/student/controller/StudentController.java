@@ -18,32 +18,33 @@ public class StudentController {
 
     private final StudentService studentService;
 
-    @PostMapping
+    @PostMapping("/save")
     public ResponseEntity<StudentResponseDto> createStudent(
             @Valid @RequestBody StudentRequestDto request) {
         StudentResponseDto response = studentService.createStudent(request);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
-    @GetMapping
+    @GetMapping("/get-all")
     public ResponseEntity<List<StudentResponseDto>> getAllStudents() {
         return ResponseEntity.ok(studentService.getAllStudents());
     }
 
-    @GetMapping("/{studentCode}")
+    @GetMapping("/get-by-code/{studentCode}")
     public ResponseEntity<StudentResponseDto> getStudentByCode(@PathVariable Integer studentCode) {
         return ResponseEntity.ok(studentService.getStudentByCode(studentCode));
     }
 
-    @PutMapping("/{studentCode}")
+    @PutMapping("update/{studentCode}")
     public ResponseEntity<StudentResponseDto> updateStudent(
             @PathVariable Integer studentCode,
             @Valid @RequestBody StudentRequestDto request) {
         return ResponseEntity.ok(studentService.updateStudentByCode(studentCode, request));
     }
 
-    @DeleteMapping("/{studentCode}")
+    @DeleteMapping("delete/{studentCode}")
     public ResponseEntity<String> deleteStudent(@PathVariable Integer studentCode) {
         return ResponseEntity.ok(studentService.deleteStudentByCode(studentCode));
     }
 }
+
