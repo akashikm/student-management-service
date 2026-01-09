@@ -60,7 +60,7 @@ public class StudentService {
     public StudentResponseDto getStudentByCode(Integer studentCode) {
         return studentRepository.findByStudentCode(studentCode)
                 .map(this::mapToDto)
-                .orElse(null);
+                .orElseThrow(() -> new StudentNotFoundException(studentCode));
     }
 
     private StudentResponseDto mapToDto(Student student) {
@@ -95,4 +95,5 @@ public class StudentService {
     }
 
 }
+
 
