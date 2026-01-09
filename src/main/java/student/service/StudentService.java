@@ -22,6 +22,7 @@ public class StudentService {
     @Transactional
     public StudentResponseDto createStudent(StudentRequestDto request)
     {
+        validateStudentData (request);
         Integer lastStudentCode = studentRepository.findTopByOrderByStudentCodeDesc()
                 .map(Student::getStudentCode)
                 .orElse(null);
@@ -33,6 +34,22 @@ public class StudentService {
         return modelMapper.map(saved, StudentResponseDto.class);
     }
 
+    private void validateStudentData(StudentRequestDto request)
+    {
+        if(request.getName() == null)
+        {
+                throw new StudentDataException("Name");
+        } 
+        if(request.getAge() == null || request.getAge()<3 || request.getAge()> 30 )
+        {      
+                throw new StudentDataException("Age");
+        }
+                if(request.getCourse() == null)
+        {
+                throw new StudentDataException("Course");
+        } 
+    }
+    
     public List<StudentResponseDto> getAllStudents() {
         return studentRepository.findAll()
                 .stream()
@@ -78,3 +95,4 @@ public class StudentService {
     }
 
 }
+
